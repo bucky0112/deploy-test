@@ -4,7 +4,7 @@
     "builder": "NIXPACKS"
   },
   "deploy": {
-    "preDeployCommand": "npm run db:migrate",
-    "startCommand": "npm run start"
+    "preDeployCommand": ["npm run db:migrate"],
+    "startCommand": "node src/server.js"
   }
 }
