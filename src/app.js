@@ -4,7 +4,27 @@ import todosRouter from './routes/todos.js';
 
 const app = express();
 
-app.use(cors());
+// 從環境變數讀前端白名單：逗號分隔、去空白、濾掉空字串，支援多組來源
+// 例：CORS_ORIGINS="https://app.example.com, http://localhost:5173"
+const allowedOrigins = (process.env.CORS_ORIGINS ?? '')
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean);
+
+const corsOptions = {
+  origin(origin, callback) {
+    // 放行無 origin 的請求（curl、同源、server-to-server）
+    // 未設定白名單時（allowedOrigins 為空）一律放行 → 允許所有來源
+    if (!origin || allowedOrigins.length === 0 || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    const err = new Error(`Not allowed by CORS: ${origin}`);
+    err.status = 403;
+    callback(err);
+  },
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 app.use('/todos', todosRouter);
