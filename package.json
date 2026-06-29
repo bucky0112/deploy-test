@@ -1,0 +1,26 @@
+{
+  "name": "deploy-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node --env-file=.env src/server.js",
+    "dev": "node --env-file=.env --watch src/server.js",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "node --env-file=.env node_modules/drizzle-kit/bin.cjs migrate",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "drizzle-orm": "^0.45.2",
+    "express": "^5.2.1",
+    "pg": "^8.22.0"
+  },
+  "devDependencies": {
+    "drizzle-kit": "^0.31.10"
+  }
+}
